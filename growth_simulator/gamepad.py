@@ -14,12 +14,6 @@ from pygame.locals import (
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-score = 0
-life = 5
-
-
-def get_life():
-    return str(life)
 
 
 pygame.init()
@@ -27,11 +21,8 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 pygame.display.set_caption("Test_game")
-font = pygame.font.Font("freesansbold.ttf", 32)
-msg = "Life: " + get_life()
-text = font.render(msg, True, (0, 255, 0), (0, 0, 128))
-text_rect = text.get_rect()
-text_rect.center = (80, 40)
+font = pygame.font.Font("freesansbold.ttf", 24)
+
 
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -43,6 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.surf = pygame.Surface((75, 25))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect()
+        self.life = 1000
+        self.score = 0
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
@@ -91,6 +84,16 @@ all_sprites.add(player)
 
 running = True
 while running:
+    msg = "Life: " + str(player.life)
+    text = font.render(msg, True, (0, 255, 0), (0, 0, 128))
+    text_rect = text.get_rect()
+    text_rect.center = (80, 40)
+
+    sc = "Score: " + str(player.score)
+    sc_text = font.render(sc, True, (0, 255, 0), (0, 0, 128))
+    sc_rect = sc_text.get_rect()
+    sc_rect.center = (80, 100)
+
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -103,6 +106,7 @@ while running:
             new_enemy = Enemy()
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
+            player.score += 1
 
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
@@ -110,15 +114,17 @@ while running:
 
     screen.fill((0, 0, 0))
     screen.blit(text, text_rect)
+    screen.blit(sc_text, sc_rect)
     # screen.blit(player.surf, player.rect)
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
 
     if pygame.sprite.spritecollideany(player, enemies):
-        life = life - 1
+        player.life -= 1
 
-    if life == 0:
+    if player.life == 0:
         player.kill()
         running = False
+        print("Your final score is: " + str(player.score))
 
     pygame.display.flip()
