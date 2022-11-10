@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, filedialog
 import moviepy.editor as mp
+import os
 
 
 class Window(Frame):
@@ -29,7 +30,7 @@ class Window(Frame):
                 messagebox.showinfo(message="pls select again")
         else:
             clip = mp.VideoFileClip(self.video_file)
-            clip.audio.write_audiofile(self.output_file + "/" + self.video_file + ".mp3")
+            clip.audio.write_audiofile(self.output_file + os.path.basename(self.video_file) + ".mp3")
             messagebox.showinfo("done!")
 
 

@@ -1,3 +1,4 @@
 build
 dist
 audio_extractor.spec
+setup.py
