@@ -69,7 +69,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = random.randint(5, 20)
 
     def update(self):
-        self.rect.move_ip(-self.speed / 8, 0)
+        self.rect.move_ip(-self.speed / 2, 0)
         if self.rect.right < 0:
             self.kill()
 

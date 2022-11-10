@@ -1,0 +1,6 @@
+Parabola transformation:
+suppose that we will lose 50%(loss) energy by every bounce of a ball, than we got: (for example)
+1. bounce: f(x) = -4x^2 + 4
+2. bounce: f(x) = -8x^2 + 2
+n. bounce: f(x) = -(1/loss)^(n-1) * initial value of x^2 + initial value of intercept / (1/loss)^(n-1)
+
